@@ -9,11 +9,14 @@ Gem::Specification.new do |gem|
   gem.authors       = ["Dimitri Kurashvili"]
   gem.email         = ["dimitri@c12.ge"]
   gem.description   = %q{CRA services}
-  gem.summary       = %q{Civil Registry Agency services}
+  gem.summary       = %q{Ruby client for C(ivil)R(egistry)A(gency) services}
   gem.homepage      = "http://github.com/dimakura/cra.ge"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
+
+  gem.add_development_dependency 'rspec', '~> 2.11'
+  gem.add_runtime_dependency 'savon', '~> 1.2'
 end
