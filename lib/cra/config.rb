@@ -2,6 +2,7 @@
 require 'singleton'
 
 module CRA
+
   class Config
     include Singleton
     attr_accessor :pem_file
@@ -12,4 +13,5 @@ module CRA
       CRA::Config.instance
     end
   end
+
 end
