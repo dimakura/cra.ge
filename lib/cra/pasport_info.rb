@@ -1,4 +1,6 @@
 # -*- encoding : utf-8 -*-
+require 'base64'
+
 class CRA::PasportInfo
 
   attr_accessor :doc_id, :doc_type, :doc_description, :doc_status, :doc_status_text
@@ -73,6 +75,17 @@ class CRA::PasportInfo
       "#{first_name} #{last_name} #{middle_name}"
     else
       "#{first_name} #{last_name}"
+    end
+  end
+
+  # Returns binary content of the photo.
+  def binary(index)
+    Base64.decode64(self.photos[index])
+  end
+
+  def write_photo(index, file = nil)
+    File.open(file || 'photo', 'wb') do |file|
+      file.write self.binary(index)
     end
   end
 
