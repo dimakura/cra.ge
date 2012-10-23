@@ -18,7 +18,7 @@ module CRA
       CRA::PasportInfo.init_with_hash(response.to_hash[:get_data_using_private_number_response][:get_data_using_private_number_result])
     end
 
-    def by_name_and_dob(last_name, first_name, year, month, day)
+    def list_by_name_and_dob(last_name, first_name, year, month, day)
       raise ArgumentError('first_name required') if first_name.blank?
       raise ArgumentError('last_name required') if last_name.blank?
       raise ArgumentError('year required') if year.blank?

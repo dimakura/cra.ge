@@ -43,23 +43,9 @@ describe 'get person info by id' do
   its(:is_document_lost) { should == false }
 end
 
-# describe 'get person info by id' do
-#   before(:all) do
-#     @person_info = CRA.serv.by_personal_id('01024022592')
-#   end
-#   subject { @person_info }
-#   its(:first_name) { should == 'თამარ' }
-#   its(:last_name) { should == 'ვარსიმაშვილი' }
-#   its(:gender) { should == CRA::FEMALE }
-#   its(:citizenship) { should == 'საქართველო' }
-#   its(:citizenship_code) { should == 'GEO' }
-#   its(:second_citizenship) { should be_nil }
-#   its(:second_citizenship_code) { should be_nil }
-# end
-
 describe 'find person documents by name and dob' do
   before(:all) do
-    @documents = CRA.serv.by_name_and_dob('ყურაშვილი', 'დიმიტრი', 1979, 4, 4)
+    @documents = CRA.serv.list_by_name_and_dob('ყურაშვილი', 'დიმიტრი', 1979, 4, 4)
   end
   subject { @documents }
   its(:size) { should == 5 }
