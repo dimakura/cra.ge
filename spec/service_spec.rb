@@ -47,8 +47,13 @@ describe 'find person documents by name and dob' do
   before(:all) do
     @documents = CRA.serv.list_by_name_and_dob('ყურაშვილი', 'დიმიტრი', 1979, 4, 4)
   end
-  subject { @documents }
-  its(:size) { should == 5 }
-  #its(:person_id) { should == 969036 }
-  #its(:private_number) { should == '02001000490' }
+  context do
+    subject { @documents }
+    its(:size) { should == 5 }
+  end
+  context do
+    subject { @documents.first }
+    its(:person_id) { should == 969036 }
+    its(:private_number) { should == '02001000490' }
+  end
 end
