@@ -41,6 +41,7 @@ describe 'get person info by id' do
   its(:actual_living_place) { should == 'თბილისი აკ.ხორავას ჩიხი N 8' }
   its(:is_person_dead) { should == false }
   its(:is_document_lost) { should == false }
+  its(:photos) { should_not be_empty }
 end
 
 describe 'find person documents by name and dob' do

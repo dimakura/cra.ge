@@ -14,7 +14,7 @@ module CRA
       response = get_client.request action_name do
         http.headers['SOAPAction'] = soap_action
         soap.body = { 'privateNumber' => personal_number }
-      end
+      end      
       CRA::PasportInfo.init_with_hash(response.to_hash[:get_data_using_private_number_response][:get_data_using_private_number_result])
     end
 

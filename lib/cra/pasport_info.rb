@@ -13,6 +13,7 @@ class CRA::PasportInfo
   attr_accessor :region_id, :region_name
   attr_accessor :response_id, :response_code
   attr_accessor :is_person_dead, :is_document_lost
+  attr_accessor :photos
 
   def self.init_with_hash(hash)
     passport = CRA::PasportInfo.new
@@ -56,6 +57,14 @@ class CRA::PasportInfo
     passport.response_id = hash[:response_id].to_i
     passport.is_person_dead = hash[:is_person_dead]
     passport.is_document_lost = hash[:is_document_lost]
+    passport.photos = []
+    if hash[:photos].is_a?(Array)
+      hash[:photos].each do |photo|
+        passport.photos.push(photo[:base64_binary])
+      end
+    else
+      passport.photos.push(hash[:photos][:base64_binary])
+    end
     passport
   end
 
