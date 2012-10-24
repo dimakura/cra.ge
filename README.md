@@ -1,29 +1,33 @@
-# Cra.ge
+# CRA.ge
 
-TODO: Write a gem description
+`cra.ge` is a gem for working with Georgian Civil Registry Agency web-services.
 
-## Installation
+## Configure
 
-Add this line to your application's Gemfile:
+First of all you need to configure the gem. You need a PEM certificate file for this:
 
-    gem 'cra.ge'
+```ruby
+CRA.config.pem_file = '/home/dimakura/certificates/my-company.pem'
+```
 
-And then execute:
+## Getting person information by private number
 
-    $ bundle
+If you have person's private number (11 digits code), then you can get the last entry in CRA database,
+like this:
 
-Or install it yourself as:
+```ruby
+private_number = '02001000490'
+person_info = CRA.serv.by_personal_id(private_number) # CRA::PassportInfo
+```
 
-    $ gem install cra.ge
+## Getting full documentation for the person
 
-## Usage
+If you have first/last names of the person and know their birthdate, then it's easy to get
+full list of documentation for this person:
 
-TODO: Write usage instructions here
-
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+```ruby
+fname = 'დიმიტრი'
+lname = 'ყურაშვილი'
+year, month, day = 1979, 4, 4
+docs = CRA.serv.list_by_name_and_dob(lname, fname, year, month, day) # array of CRA::PassportInfo
+```
