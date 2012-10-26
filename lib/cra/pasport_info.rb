@@ -70,6 +70,14 @@ class CRA::PasportInfo
     passport
   end
 
+  def self.list_with_hash(hash)
+    documents = []
+    hash[:person_info].each do |row|
+      documents << CRA::PasportInfo.init_with_hash(row)
+    end
+    documents
+  end
+
   def full_name(opts = {})
     if opts[:with_middle_name]
       "#{first_name} #{last_name} #{middle_name}"

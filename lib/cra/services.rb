@@ -38,18 +38,8 @@ module CRA
       raise ArgumentError('year required') if year.blank?
       raise ArgumentError('month required') if month.blank?
       raise ArgumentError('day required') if day.blank?
-      action_name = 'GetDataUsingCriteria'
-      soap_action = self.soap_action(action_name)
-      response = get_client.request action_name do
-        http.headers['SOAPAction'] = soap_action
-        soap.body = { 'lastName' => last_name, 'firstName' => first_name, 'year' => year, 'month' => month, 'day' => day }
-      end
-      data = response.to_hash[:get_data_using_criteria_response][:get_data_using_criteria_result][:person_info]
-      documents = []
-      data.each do |row|
-        documents << CRA::PasportInfo.init_with_hash(row)
-      end
-      documents
+      response = process_request('GetDataUsingCriteria', { 'lastName' => last_name, 'firstName' => first_name, 'year' => year, 'month' => month, 'day' => day })
+      CRA::PasportInfo.list_with_hash(response)
     end
 
     def test_service
