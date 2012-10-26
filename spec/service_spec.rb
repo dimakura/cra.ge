@@ -6,8 +6,15 @@ describe 'my UPN' do
   before(:all) do
     @upn = CRA.serv.my_upn
   end
-  subject { @upn }
-  it { should == 'CRA\telasi' }
+  context do
+    subject { @upn }
+    it { should == 'CRA\telasi' }
+  end
+  context do
+    subject { CRA.serv }
+    its(:last_request) { should == {} }
+    its(:last_response) { should == 'CRA\telasi' }
+  end
 end
 
 describe 'get person info by id' do

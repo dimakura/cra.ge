@@ -22,6 +22,7 @@ module CRA
   FEMALE = 2
 
   class Base
+    attr_accessor :last_request, :last_response
 
     def process_request(action, request)
       soap_action = self.soap_action(action)
@@ -29,7 +30,8 @@ module CRA
         http.headers['SOAPAction'] = soap_action
         soap.body = request
       end
-      response["#{action.underscore}_response".to_sym]["#{action.underscore}_result".to_sym]
+      @last_request  = request
+      @last_response = response["#{action.underscore}_response".to_sym]["#{action.underscore}_result".to_sym]
     end
 
     def get_client
