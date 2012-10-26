@@ -20,6 +20,14 @@ private_number = '02001000490'
 person_info = CRA.serv.by_personal_id(private_number) # CRA::PassportInfo
 ```
 
+## Getting person infromation by id card
+
+You can get person's last document by their id card information:
+
+```ruby
+CRA.serv.by_id_card('გ', '1355876')
+```
+
 ## Getting full documentation for the person
 
 If you have first/last names of the person and know their birthdate, then it's easy to get
