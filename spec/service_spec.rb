@@ -2,6 +2,14 @@
 require 'spec_helper'
 require 'cra'
 
+describe 'my UPN' do
+  before(:all) do
+    @upn = CRA.serv.my_upn
+  end
+  subject { @upn }
+  it { should == 'CRA\telasi' }
+end
+
 describe 'get person info by id' do
   before(:all) do
     @person_info = CRA.serv.by_personal_id('02001000490')

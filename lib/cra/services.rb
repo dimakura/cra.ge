@@ -6,6 +6,16 @@ module CRA
   class Services < CRA::Base
     include Singleton
 
+    # Get service consumer UPN.
+    def my_upn
+      action_name = 'GetMyUPN'
+      soap_action = self.soap_action(action_name)
+      response = get_client.request action_name do
+        http.headers['SOAPAction'] = soap_action
+      end      
+      response.to_hash[:get_my_upn_response][:get_my_upn_result]
+    end
+
     # Getting personal information by personal number.
     def by_personal_id(personal_number)
       raise ArgumentError('personal_number required') if personal_number.blank?
