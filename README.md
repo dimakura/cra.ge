@@ -27,7 +27,7 @@ You can get person's last document by their id card information:
 ```ruby
 id_card_serial = 'გ'
 id_card_number = '1355876'
-CRA.serv.by_id_card(id_card_serial, id_card_number)
+person_info = CRA.serv.by_id_card(id_card_serial, id_card_number)
 ```
 
 ## Getting full documentation for the person
