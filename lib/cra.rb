@@ -23,6 +23,15 @@ module CRA
 
   class Base
 
+    def process_request(action, request)
+      soap_action = self.soap_action(action)
+      response = get_client.request action do
+        http.headers['SOAPAction'] = soap_action
+        soap.body = request
+      end
+      response["#{action.underscore}_response".to_sym]["#{action.underscore}_result".to_sym]
+    end
+
     def get_client
       Savon::Client.new WSDL_URL do 
         http.auth.ssl.cert_file = CRA.config.pem_file
