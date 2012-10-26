@@ -8,12 +8,7 @@ module CRA
 
     # Get service consumer UPN.
     def my_upn
-      action_name = 'GetMyUPN'
-      soap_action = self.soap_action(action_name)
-      response = get_client.request action_name do
-        http.headers['SOAPAction'] = soap_action
-      end      
-      response.to_hash[:get_my_upn_response][:get_my_upn_result]
+      process_request('GetMyUPN', {})
     end
 
     # Getting personal information by personal number.
