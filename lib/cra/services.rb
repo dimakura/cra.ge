@@ -28,6 +28,19 @@ module CRA
       CRA::PasportInfo.init_with_hash(response.to_hash[:get_data_using_private_number_response][:get_data_using_private_number_result])
     end
 
+    # Getting personal information by ID card information.
+    def by_id_card(serial, number)
+      raise ArgumentError('id card serial required') if serial.blank?
+      raise ArgumentError('id card number required') if serial.blank?
+      action_name = 'PersonInfoByDocumentNumber'
+      soap_action = self.soap_action(action_name)
+      response = get_client.request action_name do
+        http.headers['SOAPAction'] = soap_action
+        soap.body = { 'idCardSerial' => serial, 'idCardNumber' => number }
+      end      
+      CRA::PasportInfo.init_with_hash(response.to_hash[:person_info_by_document_number_response][:person_info_by_document_number_result])
+    end
+
     # Getting documents by name and date of birth.
     def list_by_name_and_dob(last_name, first_name, year, month, day)
       raise ArgumentError('first_name required') if first_name.blank?

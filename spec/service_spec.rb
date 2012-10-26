@@ -52,6 +52,17 @@ describe 'get person info by id' do
   its(:photos) { should_not be_empty }
 end
 
+describe 'get person info by id card' do
+  before(:all) do
+    @person_info = CRA.serv.by_id_card('გ', '1355876')
+  end
+  subject { @person_info }
+  its(:doc_id) { should > 0 }
+  its(:first_name) { should == 'დიმიტრი' }
+  its(:last_name) { should == 'ყურაშვილი' }
+  its(:private_number) { should == '02001000490' }
+end
+
 describe 'find person documents by name and dob' do
   before(:all) do
     @documents = CRA.serv.list_by_name_and_dob('ყურაშვილი', 'დიმიტრი', 1979, 4, 4)
