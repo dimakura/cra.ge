@@ -14,6 +14,7 @@ describe 'my UPN' do
     subject { CRA.serv }
     its(:last_request) { should == {} }
     its(:last_response) { should == 'CRA\telasi' }
+    its(:last_action) { should == 'GetMyUPN' }
   end
 end
 

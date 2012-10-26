@@ -60,11 +60,11 @@ class CRA::PasportInfo
     passport.is_person_dead = hash[:is_person_dead]
     passport.is_document_lost = hash[:is_document_lost]
     passport.photos = []
-    if hash[:photos].is_a?(Array)
+    if hash[:photos] and hash[:photos].is_a?(Array)
       hash[:photos].each do |photo|
         passport.photos.push(photo[:base64_binary])
       end
-    else
+    elsif hash[:photos]
       passport.photos.push(hash[:photos][:base64_binary])
     end
     passport
