@@ -38,11 +38,11 @@ module CRA
     end
 
     def test_service
-      action_name = 'PersonInfoByDocumentNumber'
+      action_name = 'AddrGetRootNode'
       soap_action = self.soap_action(action_name)
       response = get_client.request action_name do
         http.headers['SOAPAction'] = soap_action
-        soap.body = { 'idCardSerial' => 'გ', 'idCardNumber' => '1355876' }
+        #soap.body = { 'idCardSerial' => 'გ', 'idCardNumber' => '1355876' }
       end      
       puts response.to_hash
     end
