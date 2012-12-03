@@ -23,6 +23,14 @@ class CRA::PassportInfo
   rescue Exception => ex
   end
 
+  def self.eval_hash(hash)
+    if hash['PersonInfo']
+      CRA::PassportInfo.init_with_hash(hash)
+    elsif hash['ArrayOfPersonInfo']
+      CRA::PassportInfo.list_with_hash(hash)
+    end
+  end
+
   def self.init_with_hash(hash)
     hash = hash['PersonInfo'] || hash
     passport = CRA::PassportInfo.new
