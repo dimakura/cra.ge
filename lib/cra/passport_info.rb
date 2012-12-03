@@ -6,7 +6,7 @@ class CRA::PassportInfo
 
   attr_accessor :doc_id, :doc_type, :doc_description, :doc_status, :doc_status_text
   attr_accessor :is_id_card, :id_card_serial, :id_card_number, :id_card_issuer, :id_card_issue_date, :id_card_valid_date
-  attr_accessor :pasport_number, :passport_issuer, :passport_issue_date, :passport_valid_date
+  attr_accessor :passport_number, :passport_issuer, :passport_issue_date, :passport_valid_date
   attr_accessor :person_id, :social_id, :private_number
   attr_accessor :first_name, :last_name, :middle_name
   attr_accessor :birth_date, :birth_place
@@ -37,7 +37,7 @@ class CRA::PassportInfo
     passport.id_card_issuer = hash['IdCardIssuer']
     passport.id_card_issue_date = extract_date(hash['IdCardIssueDate'])
     passport.id_card_valid_date = extract_date(hash['IdCardValidDate'])
-    passport.pasport_number = hash['PaspNumber'].strip if hash['PaspNumber']
+    passport.passport_number = hash['PaspNumber'].strip if hash['PaspNumber']
     passport.passport_issuer = hash['PaspIssuer'].strip if hash['PaspIssuer']
     passport.passport_issue_date = extract_date(hash['PaspIssueDate'])
     passport.passport_valid_date = extract_date(hash['PaspValidDate'])

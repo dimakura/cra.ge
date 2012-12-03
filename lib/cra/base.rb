@@ -3,13 +3,30 @@ require 'builder'
 require 'bundler/cli'
 
 class CRA::Base
-  attr_accessor :last_request, :last_response, :last_action
+  attr_accessor :last_action, :last_request, :last_response
+
+  def tokenize_service(service)
+    case service
+    when 'GetDataUsingCriteriaParameter'
+      'ძებნა სახელით და დაბ. დღით'
+    when 'GetDataUsingPrivateNumberAndIdCardParameter'
+      'ძებნა პირადობის მოწმობით'
+    when 'FetchPersonInfoByPassportNumberUsingCriteriaParameter'
+      'ძებნა პასპორტით'
+    else
+      service
+    end
+  end
 
   def gov_talk_request(options)
+    self.last_action = tokenize_service(options[:service])
+    self.last_request = options[:params]
+    # create xml
     xml = xml_generation(options)
     file1 = gen_filename
     file2 = gen_filename
     begin
+      # make signature
       File.open(file1, 'w') do |f|
         f.write(xml)
       end
@@ -19,17 +36,24 @@ class CRA::Base
         path_to_exe = "#{Bundler::CLI.new.send(:locate_gem, 'cra.ge')}/bin/cra.exe"
       end
       %x[ mono #{path_to_exe} '#{CRA.config.cert_file}' '#{CRA.config.cert_password}' '#{file1}' '#{file2}' ]
+      # send request
       xml2 = File.read(file2)
       response = RestClient.post CRA.config.url, xml2, :content_type => :xml
       hash = Hash.from_xml(response.body)
+      # manage response
       if hash['GovTalkMessage']['Header']['MessageDetails']['Qualifier'] == 'error'
         ex_root = hash['GovTalkMessage']['GovTalkDetails']['GovTalkErrors']['Error']
-        raise CRA::ServiceException, "#{ex_root['Type'].upcase}-#{ex_root['Number']}: #{ex_root['Text']}"
+        ex_text = "#{ex_root['Type'].upcase}-#{ex_root['Number']}: #{ex_root['Text']}"
+        self.last_response = ex_text
+        raise CRA::ServiceException, ex_text
       elsif hash['GovTalkMessage']['Body']['ErrorResult']
         ex_root = hash['GovTalkMessage']['Body']['ErrorResult']
-        raise CRA::ServiceException, "#{ex_root['Message']}"
+        ex_text = "#{ex_root['Message']}"
+        self.last_response = ex_text
+        raise CRA::ServiceException, ex_text
       end
       hash['GovTalkMessage']['Body']
+      self.last_response = hash['GovTalkMessage']['Body']
     ensure
       FileUtils.rm(file1)
       FileUtils.rm(file2)
