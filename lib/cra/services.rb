@@ -1,50 +1,56 @@
 # -*- encoding : utf-8 -*-
 require 'singleton'
+require 'rest_client'
+require 'active_support/core_ext/hash/conversions'
 
 module CRA
 
   class Services < CRA::Base
     include Singleton
 
-    # Get service consumer UPN.
-    def my_upn
-      process_request('GetMyUPN', {})
+    public
+
+    def by_name_and_dob(lname, fname, year, month, day)
+      body = self.gov_talk_request({
+        service: 'GetDataUsingCriteriaParameter',
+        message: 'CRAGetDataUsingCriteria',
+        class:   'CRAGetDataUsingCriteria',
+        params: {
+          LastName: lname,
+          FirstName: fname,
+          Year: year,
+          Month: month,
+          Day: day,
+        }
+      })
+      CRA::PassportInfo.list_with_hash(body)
     end
 
-    # Getting personal information by personal number.
-    def by_personal_id(personal_number)
-      raise ArgumentError('personal_number required') if personal_number.blank?
-      response = process_request('GetDataUsingPrivateNumber', { 'privateNumber' => personal_number })
-      CRA::PasportInfo.init_with_hash(response)
+    def by_id_card(private_number, id_card_serial, id_card_numb)
+      body = self.gov_talk_request({
+        service: 'GetDataUsingPrivateNumberAndIdCardParameter',
+        message: 'GetDataUsingPrivateNumberAndCard',
+        class:   'GetDataUsingPrivateNumberAndCard',
+        params: {
+          PrivateNumber: private_number,
+          IdCardSerial: id_card_serial,
+          IdCardNumber:  id_card_numb,
+        }
+      })
+      CRA::PassportInfo.init_with_hash(body)
     end
 
-    # Getting personal information by ID card information.
-    def by_id_card(serial, number)
-      raise ArgumentError('id card serial required') if serial.blank?
-      raise ArgumentError('id card number required') if serial.blank?
-      response = process_request('PersonInfoByDocumentNumber', { 'idCardSerial' => serial, 'idCardNumber' => number })
-      CRA::PasportInfo.init_with_hash(response)
-    end
-
-    # Getting documents by name and date of birth.
-    def list_by_name_and_dob(last_name, first_name, year, month, day)
-      raise ArgumentError('first_name required') if first_name.blank?
-      raise ArgumentError('last_name required') if last_name.blank?
-      raise ArgumentError('year required') if year.blank?
-      raise ArgumentError('month required') if month.blank?
-      raise ArgumentError('day required') if day.blank?
-      response = process_request('GetDataUsingCriteria', { 'lastName' => last_name, 'firstName' => first_name, 'year' => year, 'month' => month, 'day' => day })
-      CRA::PasportInfo.list_with_hash(response)
-    end
-
-    def test_service
-      action_name = 'AddrGetRootNode'
-      soap_action = self.soap_action(action_name)
-      response = get_client.request action_name do
-        http.headers['SOAPAction'] = soap_action
-        #soap.body = { 'idCardSerial' => 'გ', 'idCardNumber' => '1355876' }
-      end      
-      puts response.to_hash
+    def by_passport(private_number, passport)
+      body = self.gov_talk_request({
+        service: 'FetchPersonInfoByPassportNumberUsingCriteriaParameter',
+        message: 'CRA_FetchInfoByPassportCriteria',
+        class:   'CRA_FetchInfoByPassportCriteria',
+        params: {
+          PrivateNumber: private_number,
+          Number: passport
+        }
+      })
+      CRA::PassportInfo.init_with_hash(body)
     end
 
   end

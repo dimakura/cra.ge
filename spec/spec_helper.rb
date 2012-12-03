@@ -1,14 +1,5 @@
 # -*- encoding : utf-8 -*-
 
-# Savon
-
-require 'savon'
-
-HTTPI.log = false
-Savon.configure do |config|
-  config.log = false
-end
-
 # RSpec
 
 require 'rspec'
@@ -20,5 +11,4 @@ end
 # Test options.
 
 require 'cra'
-
-CRA.config.pem_file = 'spec/data/telasi.pem'
+require 'spec_helper_private'

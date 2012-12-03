@@ -5,7 +5,10 @@ module CRA
 
   class Config
     include Singleton
-    attr_accessor :pem_file
+    attr_accessor :user, :password, :test_mode, :cert_file, :cert_password, :cert_trace
+    def url
+      self.test_mode ? 'https://test.submission.e-government.ge/submission' : 'https://submission.e-government.ge/submission'
+    end
   end
 
   class << self
