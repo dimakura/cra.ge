@@ -16,4 +16,7 @@ test/tmp
 test/version_tmp
 tmp
 
-*.pem
+*.pfx
+*.exe
+spec/spec_helper_private.rb
+.DS_Store
