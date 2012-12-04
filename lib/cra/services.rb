@@ -57,7 +57,7 @@ module CRA
       CRA::PassportInfo.init_with_hash(body)
     end
 
-    # Returns array of addresses (ids, names and activity).
+    # Returns array of addresses.
     def address_by_name(parent_id, name)
       body = self.gov_talk_request({
         service: 'AddrFindeAddressByNameParameter',
@@ -69,6 +69,19 @@ module CRA
         }
       })
       CRA::Address.list_from_hash(body['ArrayOfResults']['Results'])
+    end
+
+    # Returns array of address nodes.
+    def address_by_parent(parent_id)
+      body = self.gov_talk_request({
+        # service: 'AddrFindeAddressByNameParameter',
+        message: 'CRA_AddrGetNodesByParentID',
+        class:   'CRA_AddrGetNodesByParentID',
+        params: {
+          long: parent_id,
+        }
+      })
+      CRA::AddressNode.list_from_hash(body['ArrayOfNodeInfo']['NodeInfo'])
     end
 
   end

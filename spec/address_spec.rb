@@ -26,3 +26,27 @@ describe 'Find address by name' do
     its(:active) { should == true }
   end
 end
+
+describe 'Find address by parent id' do
+  before(:all) do
+    @nodes = CRA.serv.address_by_parent(CRA::TBILISI_ID)
+  end
+  context do
+    subject { @nodes }
+    it { should_not be_nil }
+    it { should_not be_empty }
+    its(:size) { should == 11 }
+  end
+  context do
+    subject { @nodes.first }
+    its(:id) { should == 191 }
+    its(:description) { should == 'გლდანი' }
+    its(:description_full) { should == 'გლდანი' }
+    its(:identificator) { should == 32 }
+    its(:identificator_text) { should == 'ქალაქის რაიონი' }
+    its(:identificator_type) { should == 1 }
+    its(:identificator_type_text) { should == 'ჩვეულებრივი' }
+    its(:address) { should == 'თბილისი' }
+    its(:active) { should == true }
+  end
+end
