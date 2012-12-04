@@ -4,6 +4,7 @@ require 'rest_client'
 require 'active_support/core_ext/hash/conversions'
 
 module CRA
+  TBILISI_ID = 4
 
   class Services < CRA::Base
     include Singleton
@@ -51,6 +52,19 @@ module CRA
         }
       })
       CRA::PassportInfo.init_with_hash(body)
+    end
+
+    def address_by_name(parent_id, name)
+      body = self.gov_talk_request({
+        service: 'AddrFindeAddressByNameParameter',
+        message: 'CRA_AddrFindeAddressByName',
+        class:   'CRA_AddrFindeAddressByName',
+        params: {
+          Id: parent_id,
+          Word: name,
+        }
+      })
+      CRA::Address.list_from_hash(body['ArrayOfResults']['Results'])
     end
 
   end
