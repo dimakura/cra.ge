@@ -91,7 +91,7 @@ class CRA::Base
         xml.Message(xmlns: "urn:g3.ge:cra:call:#{message_name}:v1") do |xml|
           xml.Data do |xml|
             xml.Request do |xml|
-              if params.size == 1
+              if params.size < 2
                 params.each do |k, v|
                   xml.tag!(k, v)
                 end

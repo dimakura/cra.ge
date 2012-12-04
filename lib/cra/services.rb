@@ -4,6 +4,7 @@ require 'rest_client'
 require 'active_support/core_ext/hash/conversions'
 
 module CRA
+  GEORGIA_ID = 1
   TBILISI_ID = 4
 
   class Services < CRA::Base
@@ -71,10 +72,19 @@ module CRA
       CRA::Address.list_from_hash(body['ArrayOfResults']['Results'])
     end
 
+    # Getting address root.
+    def address_root
+      body = self.gov_talk_request({
+        message: 'CRA_AddrGetRootNode',
+        class:   'CRA_AddrGetRootNode',
+        params: {}
+      })
+      CRA::AddressNode.list_from_hash(body['ArrayOfNodeInfo']['NodeInfo'])
+    end
+
     # Returns array of address nodes.
     def address_by_parent(parent_id)
       body = self.gov_talk_request({
-        # service: 'AddrFindeAddressByNameParameter',
         message: 'CRA_AddrGetNodesByParentID',
         class:   'CRA_AddrGetNodesByParentID',
         params: {

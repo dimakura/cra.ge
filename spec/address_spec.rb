@@ -27,6 +27,30 @@ describe 'Find address by name' do
   end
 end
 
+describe 'Getting root node' do
+  before(:all) do
+    @nodes = CRA.serv.address_root
+  end
+  context do
+    subject { @nodes }
+    it { should_not be_nil }
+    it { should_not be_empty }
+    its(:size) { should == 3 }
+  end
+  context do
+    subject { @nodes.first }
+    its(:id) { should == 1 }
+    its(:description) { should == 'საქართველო' }
+    its(:description_full) { should == 'საქართველო' }
+    its(:identificator) { should == 1 }
+    its(:identificator_text) { should == 'ჩვენი ქვეყანა' }
+    its(:identificator_type) { should == 1 }
+    its(:identificator_type_text) { should == 'ჩვეულებრივი' }
+    its(:address) { should be_nil }
+    its(:active) { should == true }
+  end
+end
+
 describe 'Find address by parent id' do
   before(:all) do
     @nodes = CRA.serv.address_by_parent(CRA::TBILISI_ID)
@@ -51,13 +75,13 @@ describe 'Find address by parent id' do
   end
 end
 
-describe 'Find children for the street' do
-  before(:all) do
-    @nodes = CRA.serv.address_by_parent(1989533)
-    puts @nodes.last.address
-    puts @nodes.last.identificator_type_text
-  end
-  subject { @nodes }
-  it { should_not be_empty }
-  its(:size) { should == 28 }
-end
+# describe 'Find children for the street' do
+#   before(:all) do
+#     @nodes = CRA.serv.address_by_parent(1989533)
+#     puts @nodes.last.address
+#     puts @nodes.last.identificator_type_text
+#   end
+#   subject { @nodes }
+#   it { should_not be_empty }
+#   its(:size) { should == 28 }
+# end
