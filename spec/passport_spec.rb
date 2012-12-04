@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'cra'
 
 describe 'get person info by id card' do
   before(:all) do
