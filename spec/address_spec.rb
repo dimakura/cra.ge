@@ -50,3 +50,14 @@ describe 'Find address by parent id' do
     its(:active) { should == true }
   end
 end
+
+describe 'Find children for the street' do
+  before(:all) do
+    @nodes = CRA.serv.address_by_parent(1989533)
+    puts @nodes.last.address
+    puts @nodes.last.identificator_type_text
+  end
+  subject { @nodes }
+  it { should_not be_empty }
+  its(:size) { should == 28 }
+end
