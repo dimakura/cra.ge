@@ -24,4 +24,5 @@ end
 require 'cra/base'
 require 'cra/passport_info'
 require 'cra/address'
+require 'cra/address_info'
 require 'cra/services'

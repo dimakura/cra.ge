@@ -94,6 +94,19 @@ module CRA
       CRA::AddressNode.list_from_hash(body['ArrayOfNodeInfo']['NodeInfo'])
     end
 
+    # Get address info by it's id.
+    def address_info(id)
+      body = self.gov_talk_request({
+        message: 'CRA_AddrGetAddressInfoByID',
+        class:   'CRA_AddrGetAddressInfoByID',
+        params: {
+          long: id,
+        }
+      })
+      # puts body.to_s
+      CRA::AddressInfo.init_from_hash(body['AddressInfo'])
+    end
+
   end
 
   class << self

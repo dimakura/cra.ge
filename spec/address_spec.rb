@@ -75,13 +75,15 @@ describe 'Find address by parent id' do
   end
 end
 
-# describe 'Find children for the street' do
-#   before(:all) do
-#     @nodes = CRA.serv.address_by_parent(1989533)
-#     puts @nodes.last.address
-#     puts @nodes.last.identificator_type_text
-#   end
-#   subject { @nodes }
-#   it { should_not be_empty }
-#   its(:size) { should == 28 }
-# end
+describe 'Get address info' do
+  before(:all) do
+    @info = CRA.serv.address_info(1990702)
+  end
+  subject { @info }
+  it { should_not be_nil }
+  its(:id) { should == 1990702 }
+  its(:path) { should == [1, 4, 190, 10891, 1989533, 1990702] }
+  its(:address) { should == 'თბილისი ს. კიკეთი გ. ტაბიძე ქ. N 1' }
+  its(:region_id) { should == 190 }
+  its(:region_name) { should == 'თბილისი/მთაწმინდა' }
+end
