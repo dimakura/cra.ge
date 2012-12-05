@@ -4,6 +4,7 @@ require 'rest_client'
 require 'active_support/core_ext/hash/conversions'
 
 module CRA
+  ROOT_ID    = 0
   GEORGIA_ID = 1
   TBILISI_ID = 4
 
