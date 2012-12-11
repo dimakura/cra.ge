@@ -87,3 +87,45 @@ describe 'Get address info' do
   its(:region_id) { should == 190 }
   its(:region_name) { should == 'თბილისი/მთაწმინდა' }
 end
+
+describe 'Get persons at address' do
+  before(:all) do
+    @persons = CRA.serv.persons_at_address(1982180)
+  end
+  context do
+    subject { @persons }
+    it { should_not be_nil }
+    it { should_not be_empty }
+    its(:size) { should == 1 }
+  end
+  context do
+    subject { @persons.first }
+    its(:first_name) { should == 'ირაკლი' }
+    its(:last_name) { should == 'ცქიტიშვილი' }
+    its(:birth_date) { should == Date.new(1982, 1, 23) }
+    its(:active) { should == true }
+    its(:status_text) { should == 'აქტიური' }
+    its(:private_number) { should == '18001008167' }
+  end
+end
+
+describe 'Get address with multiple persons' do
+  before(:all) do
+    @persons = CRA.serv.persons_at_address(576056)
+  end
+  context do
+    subject { @persons }
+    it { should_not be_nil }
+    it { should_not be_empty }
+    its(:size) { should == 4}
+  end
+  context do
+    subject { @persons.first }
+    its(:first_name) { should == 'ნათია' }
+    its(:last_name) { should == 'ბოდოკია' }
+    its(:birth_date) { should == Date.new(1984, 5, 7) }
+    its(:active) { should == true }
+    its(:status_text) { should == 'აქტიური' }
+    its(:private_number) { should == '01010013915' }
+  end
+end

@@ -108,6 +108,18 @@ module CRA
       CRA::AddressInfo.init_from_hash(body['AddressInfo'])
     end
 
+    # Get persons array at the given address. 
+    def persons_at_address(address_id)
+      body = self.gov_talk_request({
+        message: 'CRA_GetPersonsAtAddress',
+        class:   'CRA_GetPersonsAtAddress',
+        params: {
+          long: address_id,
+        }
+      })
+      CRA::PersonAtAddress.list_from_hash(body['ArrayOfPersonsAtAddress'])
+    end
+
   end
 
   class << self

@@ -25,6 +25,7 @@ require 'cra/address'
 require 'cra/address_node'
 require 'cra/address_info'
 require 'cra/passport_info'
+require 'cra/person_at_address'
 
 require 'cra/base'
 require 'cra/services'

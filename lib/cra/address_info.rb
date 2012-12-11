@@ -11,4 +11,5 @@ class CRA::AddressInfo
     address.region_name = hash['RegionName']
     address
   end
+
 end
