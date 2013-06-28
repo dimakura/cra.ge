@@ -33,7 +33,8 @@ class CRA::Base
       if File.exists?('bin/cra.exe')
         path_to_exe = 'bin/cra.exe'
       else
-        path_to_exe = "#{Bundler::CLI.new.send(:locate_gem, 'cra.ge')}/bin/cra.exe"
+        # path_to_exe = "#{Bundler::CLI.new.send(:locate_gem, 'cra.ge')}/bin/cra.exe"
+        path_to_exe = File.join(Gem::Specification.find_by_name('cra.ge').gem_dir, '/bin/cra.exe')
       end
       %x[ mono #{path_to_exe} '#{CRA.config.cert_file}' '#{CRA.config.cert_password}' '#{file1}' '#{file2}' ]
       # send request
