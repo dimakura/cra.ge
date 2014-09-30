@@ -56,8 +56,8 @@ class CRA::Base
       hash['GovTalkMessage']['Body']
       self.last_response = hash['GovTalkMessage']['Body']
     ensure
-      FileUtils.rm(file1)
-      FileUtils.rm(file2)
+      FileUtils.rm(file1) if File.exists?(file1)
+      FileUtils.rm(file2) if File.exists?(file2)
     end
   end
 
