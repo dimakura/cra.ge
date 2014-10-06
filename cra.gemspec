@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency 'rspec', '~> 2.11'
   gem.add_runtime_dependency 'activesupport', '~> 3.2'
-  gem.add_runtime_dependency 'rest-client', '~> 1.6'
+  gem.add_runtime_dependency 'rest-client', '1.6.8'
   gem.add_runtime_dependency 'builder', '~> 3.0'
   gem.add_runtime_dependency 'bundler', '~> 1.2'
 end
